@@ -9,23 +9,38 @@ Route::match(['get', 'post'], '/login',
     [AuthController::class, 'loginUser']
 )->name('login');
 
-Route::get('/logout', 
+Route::get('/logout',
     [AuthController::class, 'logoutUser']
-)->name('logout');
+)->name('Logout');
 
 Route::match(['get', 'post'],'/register',
     [UserController::class, 'registerUser']
 )->name('register');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/users', 
+    Route::get('/users',
         [UserController::class, 'listAllUsers']
     )->name('ListAllUsers');
 
-    Route::get('/users/{uid}', 
+    Route::get('/users/{uid}',
         [UserController::class, 'listUser']
-    )->name('ListUser');
+    )->name('ListUserById');
+
+    Route::get('/users/{uid}/edit',
+    [UserController::class, 'editUser']
+    )->name('EditUser');
+
+    Route::put('/users/{uid}/update',
+    [UserController::class, 'updateUser']
+    )->name('UpdateUser');
+
+    Route::delete('/users/{uid}/delete',
+    [UserController::class, 'deleteUser']
+    )->name('DeleteUser');
 });
+
+
+
 
 
 

@@ -45,6 +45,11 @@
   input[type="submit"]:hover {
     background-color: #45a049;
   }
+  .register{
+    font-size: 10pt;
+    text-decoration: none;
+    color: #4CAF50;
+  }
 </style>
 </head>
 <body>
@@ -52,14 +57,18 @@
     <h2>Login</h2>
     <form action="{{ route('login') }}" method="post">
       @csrf
-      <input type="email" id="email" name="email" placeholder="E-mail" 
+      <input type="email" id="email" name="email" placeholder="E-mail"
                     value="{{ old('email') }}" required>
       @error('email') <span>{{ $message }}</span> @enderror
-      <input type="password" id="password" name="password" placeholder="Senha" 
+      <input type="password" id="password" name="password" placeholder="Senha"
                     required>
       @error('password') <span>{{ $message }}</span> @enderror
       <input type="submit" value="Logar">
     </form>
-  </div>
+    <a class="register" href="{{route('register')}}">
+         Ainda não tem conta no Forum?
+      </a>
 </body>
+
+</script>
 </html>

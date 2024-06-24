@@ -3,72 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Página com Layout</title>
 <style>
-    body {
+    *{
+        padding: 0;
         margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        background-color: #f0f5ff; /* Azul claro para o fundo */
+
     }
-    header {
-        background-color: #007bff; /* Azul */
-        color: #fff;
-        padding: 10px;
-        text-align: center;
+    header{
+        display: flex;
+        width: 100%;
+        height: 80px;
+        background-color: #3b3939;
+        align-items: center;
+        justify-content: center;
+
+
     }
-    nav {
-        background-color: #e7f0ff; /* Azul claro */
-        width: 200px;
-        height: 100vh;
+    input[type="search"]{
+        width: 20%;
+        height: 25px;
+        border: none;
+        border-radius: 10px;
+        padding: 5px
+
+
+    }
+    .side-nav{
         position: fixed;
-        top: 0;
-        left: 0;
+        display: inline-block;
+        width: 10%;
+        height: 100%;
+        margin-right: 20px;
+        background-color: #363535;
+
     }
-    nav ul {
-        list-style-type: none;
-        padding: 0;
+    .nav-link{
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        text-decoration: none;
+        color: #38b6ff;
     }
-    nav ul li {
-        padding: 10px;
-        border-bottom: 1px solid #ccdfff; /* Azul claro para a borda */
+    .nav-link:hover{
+        background-color: #262626;
+        color: #2c4bb1;
     }
-    footer {
-        background-color: #007bff; /* Azul */
-        color: #fff;
-        padding: 10px;
-        text-align: center;
+    .content{
+        margin-left: 10%;
+        padding: 20px;
+    }
+    footer{
+        color: white;
+        display: flex;
+        width: 100%;
+        height: 50px;
+        background-color: #3b3939;
+        align-items: center;
+        justify-content: center;
         position: fixed;
         bottom: 0;
-        width: 100%;
+
     }
-    .content {
-        margin-left: 220px; /* Ajuste de acordo com a largura da barra lateral */
-        padding: 20px;
+    .logout{
+        position: absolute;
+        right: 0;
+        margin: 5px;
+        text-decoration: none;
+        color: aliceblue;
+        background-color: #2c4bb1;
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .logout:hover{
+        background-color: #284378;
     }
 </style>
 </head>
 <body>
+<div>
+    <header>
+        <input type="search" name="" id="">
+        <a class="logout" href="{{route('Logout')}}">LogOut</a>
 
-<header>
-    <h1>@yield('header')</h1>
-</header>
+    </header>
 
-<nav>
+</div>
+<nav class="side-nav">
     <ul>
-        <li><a href="#">Menu 1</a></li>
-        <li><a href="#">Menu 2</a></li>
-        <li><a href="#">Menu 3</a></li>
-        <li><a href="#">Menu 4</a></li>
+        <li><a class="nav-link" href="#"><p>Menu 1</p></a></li>
+        <li><a class="nav-link" href="#"><p>Menu 2</a></p></li>
+        <li><a class="nav-link" href="#"><p>Menu 3</p></a></li>
+        <li><a class="nav-link" href="#"><p>Menu 4</p></a></li>
     </ul>
 </nav>
 
 <div class="content">
+    <h1>@yield('header')</h1>
     @yield('content')
 </div>
 
 <footer>
-    <p>Rodapé - © 2024</p>
+    <p>ForumTech - © 2024</p>
 </footer>
 
 </body>

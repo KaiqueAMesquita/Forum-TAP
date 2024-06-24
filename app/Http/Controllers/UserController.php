@@ -12,12 +12,17 @@ class UserController extends Controller
 {
     public function listAllUsers(Request $request) {
         // lógica
-        return view('user.listAllUsers');
+        $users = User::all();
+        return view('user.listAllUsers', ['users' => $users]);
     }
 
     public function listUser(Request $request, $uid) {
         print($uid);
+        $user = User::where('id', $uid)->first();
+        return view('user.profile', ['user' => $user]);
+
     }
+
 
     public function registerUser(Request $request) {
         if ($request->method() === 'GET') {
@@ -25,7 +30,7 @@ class UserController extends Controller
             return view('user.register');
 
         } else {
-            
+
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
@@ -47,5 +52,35 @@ class UserController extends Controller
         }
 
     }
+
+    public function editUser(Request $request,$uid) {
+            $user = User::where('id', $uid)->first();
+          return view('user.editUser', ['user' => $user]);
+    }
+
+    public function updateUser(Request $request, $uid) {
+        print($uid);
+        $user = User::where('id', $uid)->first();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        // if($request -> $password != ''){
+        //     $user -> $password = Hash::make($request -> $password);
+        // }
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+        return redirect()->route('ListAllUsers', [$user -> id])
+        ->with('message', 'Atualizado com Sucesso');
+    }
+    public function deleteUser(Request $request, $uid) {
+        print($uid);
+        User::where('id', $uid)->delete();
+        return redirect()->route('ListAllUsers')
+        ->with('message', 'Deletado com Sucesso');
+    }
+
+
 
 }
