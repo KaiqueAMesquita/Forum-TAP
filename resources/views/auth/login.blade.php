@@ -7,7 +7,7 @@
 <style>
   body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #585858;
     margin: 0;
     padding: 0;
     display: flex;
@@ -15,47 +15,53 @@
     align-items: center;
     height: 100vh;
   }
-  .login-container {
-    background-color: #fff;
+  .card {
+    background-color: #272727;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 10px 0px rgba(39, 39, 39, 0.1);
     padding: 40px;
-    width: 300px;
+    width: 250px;
+    height: 350px;
   }
   h2 {
+    color: white;
     text-align: center;
     margin-bottom: 30px;
   }
   input[type="email"], input[type="password"] {
     width: calc(100% - 20px);
+    height: 15px;
     padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    border: 1px solid #ffffff;
     border-radius: 4px;
   }
   input[type="submit"] {
     width: 100%;
     padding: 10px;
-    background-color: #4CAF50;
+    background-color: #4d57ea;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
   input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #0f0c54;
   }
   .register{
-    font-size: 10pt;
+    font-size: 9pt;
     text-decoration: none;
-    color: #4CAF50;
+    color: #fff;
+  }
+  .register:hover{
+    color: #090029;
   }
 </style>
 </head>
 <body>
-  <div class="login-container">
+  <div class="card">
     <h2>Login</h2>
-    <form action="{{ route('login') }}" method="post">
+    <form  action="{{ route('login') }}" method="post">
       @csrf
       <input type="email" id="email" name="email" placeholder="E-mail"
                     value="{{ old('email') }}" required>

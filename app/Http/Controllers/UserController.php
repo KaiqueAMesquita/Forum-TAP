@@ -19,8 +19,27 @@ class UserController extends Controller
     public function listUser(Request $request, $uid) {
         print($uid);
         $user = User::where('id', $uid)->first();
-        return view('user.profile', ['user' => $user]);
+        return view('user.profiles', ['user' => $user]);
 
+    }
+
+    public function updateUser(Request $request, $uid) {
+        // procurar o usuário no banco
+        $user = User::where('id', $uid)->first();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->password != '') {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+        return redirect()->route('ListAllUsers', [$user->id])
+                ->with('message', 'Atualizado com sucesso!');
+    }
+
+    public function deleteUser(Request $request, $uid) {
+        User::where('id', $uid)->delete();
+        return redirect()->route('ListAllUsers')
+                ->with('message', 'Atualizado com sucesso!');
     }
 
 
@@ -57,30 +76,6 @@ class UserController extends Controller
             $user = User::where('id', $uid)->first();
           return view('user.editUser', ['user' => $user]);
     }
-
-    public function updateUser(Request $request, $uid) {
-        print($uid);
-        $user = User::where('id', $uid)->first();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        // if($request -> $password != ''){
-        //     $user -> $password = Hash::make($request -> $password);
-        // }
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-
-        $user->save();
-        return redirect()->route('ListAllUsers', [$user -> id])
-        ->with('message', 'Atualizado com Sucesso');
-    }
-    public function deleteUser(Request $request, $uid) {
-        print($uid);
-        User::where('id', $uid)->delete();
-        return redirect()->route('ListAllUsers')
-        ->with('message', 'Deletado com Sucesso');
-    }
-
 
 
 }

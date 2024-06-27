@@ -1,6 +1,6 @@
-@extends('layouts.gpt')
+@extends('layouts.navs')
 
-@section('header', 'Listar Todos os Usuários')
+@section('header', 'Lista de Usuários')
 
 @section('content')
 <style>
@@ -41,7 +41,31 @@
             border-end-end-radius: 5px;
 
         }
+        .btn{
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            color: white;
+        }
+        .trash{
+            background-color: red;
+        }
+        .edit{
+            background-color: #61cff7;
+        }
+        .view{
+            background-color: #2d37cb;
+        }
+        .btn:hover{
+            cursor: pointer;
+
+        }
+        .fa-pen-to-square,.fa-street-view,.fa-trash{
+            color: white;
+        }
+
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <table border="1">
         <tr>
@@ -55,13 +79,13 @@
         <tr>
             <td>{{$user -> name}}</td>
             <td>{{$user -> email}}</td>
-            <td><a href="{{route('EditUser',$user->id)}}">editar</a></td>
-            <td><a href="{{route('ListUserById',$user->id)}}">visualizar</a></td>
-            <td >
+            <td><a class="btn edit" href="{{route('EditUser',$user->id)}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+            <td><a class="btn view" href="{{route('ListUserById',$user->id)}}"><i class="fa-solid fa-street-view"></i></a></td>
+            <td>
             <form action="{{ route('DeleteUser', $user->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button type="submit">Deletar Usuario</button>
+                <button class="btn trash" type="submit"><i class="fa-solid fa-trash"></i></button>
             </form>
         </td>
 

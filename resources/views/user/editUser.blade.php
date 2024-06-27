@@ -1,99 +1,111 @@
+@extends('layouts.navs')
+
+@section('header', 'Editar Usuário ')
+
+@section('content')
 <!DOCTYPE html>
     <html>
         <head>
             <style>
                 .card {
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0px  0px  0px 1px rgba(98, 98, 98, 0.445);
+                    border-radius: 10px;
+                    padding: 10px;
+                    width: 300px;
+                    height: 350px;
+                    display: flex;
+                    justify-content: center;
                 }
 
                 .form-group {
                     margin-bottom: 20px;
                 }
 
-                .form-control {
+                input[type="text"],
+                input[type="password"],
+                input[type="email"]
+                 {
                     padding: 10px;
                     border: 1px solid #ccc;
                     border-radius: 5px;
+                    width: 80%;
                 }
 
                 .invalid-feedback {
                     color: #red;
                 }
+                .submit{
+                    width: 90%;
+                    height: 30px;
+                    background-color: #445ce4;
+                    border: none;
+                    border-radius: 5px;
+                    color: white;
+                }
+                .submit:hover{
+                    cursor: pointer;
+                    background-color: #2f45c0;
+                }
+                .nameUser{
+                    font-family: Arial, Helvetica, sans-serif;
+
+                }
             </style>
         </head>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Update User</div>
 
-                    <div class="card-body">
+        @section('content')
+            <div class="container">
+                <h2 class="nameUser">{{$user->name}}</h2>
+                <div class="card">
+
                         <form method="POST" action="{{ route('UpdateUser', $user->id) }}">
                             @csrf
                             @method('put')
 
-                            <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
-
-                                <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autocomplete="name" autofocus>
-
-                                    @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                            <div class="form-group">
+                                <label for="name">Nome</label>
+                                <input id="name" type="text" class="@error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autocomplete="name" autofocus>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
 
-                            <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}"  required autocomplete="email">
-
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
 
-                            <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="new-password">
-
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                            <div class="form-group">
+                                <label for="password">Senha</label>
+                                <input id="password" type="password" class="@error('password') is-invalid @enderror" name="password" autocomplete="new-password">
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
 
-                            <div class="form-group row">
-                                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
-
-                                <div class="col-md-6">
-                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password">
-                                </div>
+                            <div class="form-group">
+                                <label for="password-confirm">Confirmar Senha</label>
+                                <input id="password-confirm" type="password" name="password_confirmation" autocomplete="new-password">
                             </div>
 
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        Update
-                                    </button>
-                                </div>
-                            </div>
+                                <button class="submit" type="submit" class="btn update">
+                                    Atualizar
+                                </button>
+
                         </form>
-                    </div>
+
                 </div>
             </div>
-        </div>
-    </div>
-    </html>
+        @endsection
+
+
 
