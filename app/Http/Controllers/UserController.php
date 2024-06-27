@@ -22,6 +22,12 @@ class UserController extends Controller
         return view('user.profiles', ['user' => $user]);
 
     }
+    public function moderateUser(Request $request, $uid) {
+        print($uid);
+        $user = User::where('id', $uid)->first();
+        return view('user.moderator', ['user' => $user]);
+
+    }
 
     public function updateUser(Request $request, $uid) {
         // procurar o usuário no banco

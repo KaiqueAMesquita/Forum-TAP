@@ -33,6 +33,10 @@ Route::middleware('auth')->group(function () {
         [UserController::class, 'listUser']
     )->name('ListUserById');
 
+    Route::get('/users/{uid}/moderator',
+    [UserController::class, 'moderateUser']
+)->name('ModeratorUser');
+
     Route::get('/users/{uid}/edit',
     [UserController::class, 'editUser']
     )->name('EditUser');
