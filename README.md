@@ -1,4 +1,4 @@
-*Projeto de Fórum Técnico com Laravel*
+***Projeto de Fórum Técnico com Laravel***
 
 Este projeto foi desenvolvido como parte do curso de Técnicas Avançadas de Programação, utilizando o padrão Model View Controller (MVC) com Laravel. O objetivo é criar um fórum técnico com as seguintes funcionalidades:
 *Incompleto
