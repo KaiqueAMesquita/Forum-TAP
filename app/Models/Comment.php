@@ -9,8 +9,18 @@ class Comment extends Post
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'content',
 
     ];
+    public function post(){
+        return $this->morphOne(Post::class, 'postable');
+    }
+
+    public function topic(): BelongsTo
+    {
+        return $this->belongsTo(Topic::class);
+    }
+
 
 }

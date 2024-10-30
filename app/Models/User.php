@@ -21,7 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'photo'
+        'photo',
+        'role',
     ];
 
     /**
@@ -32,8 +33,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-    ];
 
+    ];
     /**
      * The attributes that should be cast.
      *
@@ -42,4 +43,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function rates(): HasMany
+    {
+        return $this->hasMany(Rate::class);
+    }
+
+    public function post(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function isModerator(){
+        return $this->role == 'moderator' || $this->role == 'admin';
+    }
+
+    public function isAdmin(){
+        return $this->role == 'admin';
+    }
+
+
+
 }

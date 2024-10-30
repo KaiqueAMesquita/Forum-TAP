@@ -82,8 +82,8 @@
     <ul>
         <li><a class="nav-link" href="{{route('Home')}}"><p>Home</p></a></li>
         <li><a class="nav-link" href="{{route('ListAllUsers')}}"><p>Usuários</p></a></li>
-        <li><a class="nav-link" href="#"><p>Menu 3</p></a></li>
-        <li><a class="nav-link" href="#"><p>Menu 4</p></a></li>
+        <li><a class="nav-link" href="{{route('ListAllCategories')}}"><p>Categorias</p></a></li>
+        <li><a class="nav-link" href="{{route('ListAllTags')}}"><p>Tags</p></a></li>
         <li class="information">
             @if(Auth::check())
             <a class="logout" href="{{route('ListUserById', Auth::user()->id)}}">

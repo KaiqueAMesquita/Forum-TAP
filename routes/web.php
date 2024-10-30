@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\TopicController;
 Route::get('/', function(){
     return view('index');
 })->name('Home');
-
 
 
 
@@ -58,30 +59,83 @@ Route::middleware('auth')->group(function () {
     )->name('DeleteUser');
 });
 
+
+//Category
+
+Route::get('/categories',
+[CategoryController::class, 'listAllCategories']
+)->name('ListAllCategories');
+
+Route::middleware('auth')->group(function () {
+Route::match(['get', 'post'],'/categories/create',
+    [CategoryController::class, 'createCategory']
+)->name('CreateCategory');
+
+
+
+Route::get( '/categories/{uid}',
+[CategoryController::class, 'listCategoryById']
+)->name('ListCategoryById');
+
+Route::get( '/categories/{uid}/edit',
+[CategoryController::class, 'editCategory']
+)->name('EditCategory');
+
+
+Route::put('/categories/{uid}/update',
+[CategoryController::class, 'updateCategory']
+)->name('UpdateCategory');
+
+Route::delete('/categories/{uid}/delete',
+[CategoryController::class, 'deleteCategory']
+)->name('DeleteCategory');
+});
 //Topic
-Route::get('/topics',
+
+Route::group(['prefix' => 'topics'], function(){
+   Route::match(['get', 'post'],'/create',
+    [TopicController::class, 'createTopic']
+)->name('CreateTopic');
+    Route::get('/',
     [TopicController::class, 'listAllTopics']
 )->name('ListAllTopics');
-Route::get( '/topics/{uid}',
+Route::get( '/{uid}',
     [TopicController::class, 'listTopicById']
 )->name('ListTopicById');
-
-Route::get( '/topics/edit',
+Route::delete( '/delete',
+    [TopicController::class, 'deleteTopic']
+)->name('DeleteTopic');
+Route::get( '/edit',
     [TopicController::class, 'editTopic']
 )->name('EditTopic');
+});
+
+
 
 //Tag
+Route::match(['get', 'post'],'/tags/create',
+    [TagController::class, 'createTag']
+)->name('CreateTag');
+
 Route::get('/tags',
-[TagController::class, 'ListAllTags']
-)->name('tags');
+[TagController::class, 'listAllTags']
+)->name('ListAllTags');
 
 Route::get( '/tags/{uid}',
 [TagController::class, 'listTagById']
 )->name('ListTagById');
 
-Route::get( '/tags/edit',
+Route::get( '/tags/{uid}/edit',
 [TagController::class, 'editTag']
 )->name('EditTag');
+
+Route::put('/tags/{uid}/update',
+[TagController::class, 'updateTag']
+)->name('UpdateTag');
+
+Route::delete('/tags/{uid}/delete',
+[TagController::class, 'deleteTag']
+)->name('DeleteTag');
 
 //Post
 Route::get('/posts',

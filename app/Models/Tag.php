@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     protected $fillable = [
-        'title',
+        'id',
+        'tie',
 
     ];
 
     public function topics(): BelongsToMany
     {
-        return $this->belongsToMany(Topic::class, 'topic_tag');
+        return $this->belongsToMany(Topic::class, 'topic_tags');
     }
 
     use HasFactory;

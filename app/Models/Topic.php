@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+;use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Topic extends Post
@@ -10,11 +9,22 @@ class Topic extends Post
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'title',
         'description',
         'status',
+        'category_id'
 
     ];
+
+    public function post(){
+        return $this->morphOne(Post::class, 'postable');
+    }
+
+    // public function post(){
+
+    //     return $this->belongsTo(Post::class);
+    // }
 
     public function category(): BelongsTo
     {
@@ -24,6 +34,10 @@ class Topic extends Post
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Topic::class);
+    }
+    public function comment(): HasMany
+    {
+        return $this->belongsToMany(Comment::class);
     }
 
 }

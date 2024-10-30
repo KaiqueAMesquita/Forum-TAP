@@ -1,6 +1,6 @@
 @extends('layouts.navs')
 
-@section('header', 'Lista de Tópicos')
+@section('header', 'Lista de Usuários')
 
 @section('content')
 <style>
@@ -71,14 +71,18 @@
         <tr>
             <th>Titulo</th>
             <th>Descrição</th>
+            <th>Edição</th>
+            <th>Visualição</th>
             <th>Deletar</th>
         </tr>
-        @foreach($topics as $topic)
+        @foreach($categories as $category)
         <tr>
-            <td>{{$topic -> title}}</td>
-            <td>{{$topic -> description}}</td>
+            <td>{{$category -> title}}</td>
+            <td>{{$category -> description}}</td>
+            <td><a class="btn edit" href="{{route('EditCategory',$category->id)}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+            <td><a class="btn view" href="{{route('ListCategoryById',$category->id)}}"><i class="fa-solid fa-street-view"></i></a></td>
             <td>
-            <form action="{{ route('DeleteTopic', $topic->id) }}" method="POST">
+            <form action="{{ route('DeleteCategory', $category->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button class="btn trash" type="submit"><i class="fa-solid fa-trash"></i></button>
@@ -88,6 +92,6 @@
         </tr>
         @endforeach
     </table>
-    <a href="{{route('CreateTopic')}}">Criar</a>
+    <a href="{{route('CreateCategory')}}">Criar</a>
 
 @endsection

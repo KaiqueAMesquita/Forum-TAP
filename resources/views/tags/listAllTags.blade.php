@@ -1,6 +1,6 @@
 @extends('layouts.navs')
 
-@section('header', 'Lista de Tópicos')
+@section('header', 'Lista de Usuários')
 
 @section('content')
 <style>
@@ -69,16 +69,18 @@
 
     <table border="1">
         <tr>
-            <th>Titulo</th>
-            <th>Descrição</th>
+            <th>Laço</th>
+            <th>Edição</th>
+            <th>Visualição</th>
             <th>Deletar</th>
         </tr>
-        @foreach($topics as $topic)
+        @foreach($tags as $tag)
         <tr>
-            <td>{{$topic -> title}}</td>
-            <td>{{$topic -> description}}</td>
+            <td>{{$tag -> tie}}</td>
+            <td><a class="btn edit" href="{{route('EditTag',$tag->id)}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+            <td><a class="btn view" href="{{route('ListTagById',$tag->id)}}"><i class="fa-solid fa-street-view"></i></a></td>
             <td>
-            <form action="{{ route('DeleteTopic', $topic->id) }}" method="POST">
+            <form action="{{ route('DeleteTag', $tag->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button class="btn trash" type="submit"><i class="fa-solid fa-trash"></i></button>
@@ -88,6 +90,6 @@
         </tr>
         @endforeach
     </table>
-    <a href="{{route('CreateTopic')}}">Criar</a>
+    <a href="{{route('CreateTag')}}">Criar</a>
 
 @endsection
