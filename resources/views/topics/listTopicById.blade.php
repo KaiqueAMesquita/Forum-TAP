@@ -1,6 +1,6 @@
 @extends('layouts.navs')
 
-@section('header', 'Criar Tópico ')
+@section('header', 'Editar Topicos ')
 
 @section('content')
 <!DOCTYPE html>
@@ -55,27 +55,29 @@
 
         @section('content')
             <div class="container">
+                <h2 class="tieTopic">{{$topic->title}}</h2>
                 <div class="card">
-
-                        <form method="POST">
+                        <form method="POST" action="{{ route('EditTopic', $topic->id) }}">
                             @csrf
                             @method('put')
 
                             <div class="form-group">
-                                <label for="name">Título</label>
-                                <input id="title" type="text" name="title" required autocomplete="name" autofocus>
-
-
+                                <label for="name">Descrição</label>
+                                <input id="title" type="text" class="@error('title') is-invalid @enderror" name="title" value="{{ old('title', $topic->title) }}" required autocomplete="title" autofocus>
+                                @error('tie')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                <input id="description" type="text" class="@error('description') is-invalid @enderror" name="description" value="{{ old('description', $topic->description) }}" required autocomplete="description" autofocus>
+                                @error('description')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
-
-                            <div class="form-group">
-                                <label for="email">Descrição</label>
-                                <input id="description" type="texarea"  name="description"  required autocomplete="email">
-
-                            </div>
-
                                 <button class="submit" type="submit" class="btn update">
-                                    Criar tópico
+                                    Atualizar
                                 </button>
 
                         </form>
@@ -83,6 +85,7 @@
                 </div>
             </div>
         @endsection
+
 
 
 

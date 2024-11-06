@@ -60,7 +60,29 @@ Route::middleware('auth')->group(function () {
 });
 
 
-//Category
+Route::middleware('auth')->group(function () {
+   //Topic
+Route::group(['prefix' => 'topics'], function(){
+    Route::match(['get', 'post'],'/create',
+     [TopicController::class, 'createTopic']
+ )->name('CreateTopic');
+     Route::get('/',
+     [TopicController::class, 'listAllTopics']
+ )->name('ListAllTopics');
+ Route::get( '/{uid}',
+     [TopicController::class, 'listTopicById']
+ )->name('ListTopicById');
+ Route::delete( '/delete',
+     [TopicController::class, 'deleteTopic']
+ )->name('DeleteTopic');
+ Route::put( '/edit/{uid}',
+     [TopicController::class, 'editTopic']
+ )->name('EditTopic');
+
+ });
+
+
+ //Category
 
 Route::get('/categories',
 [CategoryController::class, 'listAllCategories']
@@ -70,8 +92,6 @@ Route::middleware('auth')->group(function () {
 Route::match(['get', 'post'],'/categories/create',
     [CategoryController::class, 'createCategory']
 )->name('CreateCategory');
-
-
 
 Route::get( '/categories/{uid}',
 [CategoryController::class, 'listCategoryById']
@@ -90,25 +110,12 @@ Route::delete('/categories/{uid}/delete',
 [CategoryController::class, 'deleteCategory']
 )->name('DeleteCategory');
 });
-//Topic
 
-Route::group(['prefix' => 'topics'], function(){
-   Route::match(['get', 'post'],'/create',
-    [TopicController::class, 'createTopic']
-)->name('CreateTopic');
-    Route::get('/',
-    [TopicController::class, 'listAllTopics']
-)->name('ListAllTopics');
-Route::get( '/{uid}',
-    [TopicController::class, 'listTopicById']
-)->name('ListTopicById');
-Route::delete( '/delete',
-    [TopicController::class, 'deleteTopic']
-)->name('DeleteTopic');
-Route::get( '/edit',
-    [TopicController::class, 'editTopic']
-)->name('EditTopic');
 });
+
+
+
+
 
 
 

@@ -71,12 +71,14 @@
         <tr>
             <th>Titulo</th>
             <th>Descrição</th>
+            <th>Editar</th>
             <th>Deletar</th>
         </tr>
         @foreach($topics as $topic)
         <tr>
             <td>{{$topic -> title}}</td>
             <td>{{$topic -> description}}</td>
+            <td><a class="btn edit" href="{{route('ListTopicById',$topic->id)}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
             <td>
             <form action="{{ route('DeleteTopic', $topic->id) }}" method="POST">
                 @csrf

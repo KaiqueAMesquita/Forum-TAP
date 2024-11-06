@@ -1,6 +1,6 @@
 @extends('layouts.navs')
 
-@section('header', 'Editar Usuário ')
+@section('header', 'Editar Tags ')
 
 @section('content')
 <!DOCTYPE html>

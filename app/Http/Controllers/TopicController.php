@@ -76,9 +76,21 @@ class TopicController extends Controller
                 ->with('message', 'Atualizado com sucesso!');
     }
 
-    public function editTopic(Request $request) {
-        return view('topics.editTopic');
+    public function listTopicById(Request $request, $uid) {
 
+
+        $topic = Topic::where('id', $uid)->first();
+        return view('topics.listTopicById', ['topic' => $topic]);
+
+    }
+    public function editTopic(Request $request, $uid) {
+        $topic = Topic::where('id', $uid)->first();
+        $topic->title = $request->title;
+
+
+        $topic->save();
+        return redirect()->route('ListAllTopics', [$topic->id])
+                ->with('message', 'Atualizado com sucesso!');
     }
 
 
