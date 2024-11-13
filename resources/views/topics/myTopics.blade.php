@@ -1,10 +1,9 @@
 @extends('layouts.navs')
 
-@section('header', 'Tópicos')
+@section('header', 'Meus Tópicos')
 
 @section('content')
 <style>
-
     .card{
         margin: 10px;
         max-width: 100%;
@@ -21,6 +20,7 @@
     }
 </style>
 <div class="container-sm">
+
 @foreach($topics as $topic)
 <div class="card text-center">
     <div class="card-header">

@@ -13,9 +13,22 @@ class TopicController extends Controller
 {
 
     public function listAllTopics(){
-        $topics = Topic::all();
+        $topics = Topic::with('category')->get();
         return view('topics.listAllTopics', ['topics' => $topics]);
 
+    }
+    public function myTopics(Request $request) {
+        $userId = Auth::id();
+
+
+        $topics = Post::where('user_id', $userId)
+                      ->whereHasMorph('postable', Topic::class)
+                      ->with('postable.category')
+                      ->get()
+                      ->pluck('postable')
+                      ->unique('id');
+
+        return view('topics.myTopics', ['topics' => $topics]);
     }
 
     public function createTopic(Request $request) {
@@ -57,12 +70,21 @@ class TopicController extends Controller
             // $topic->posts()->save($post);
 
             return redirect()
-                    ->route('ListAllCategories')
+                    ->route('ListAllTopics')
                     ->with('success', 'Topico criada com sucesso.');
 
         }
 
     }
+
+    // public function search(Request $request, $search) {
+
+
+    //     $topics = Topic::where('title', '%'$search'%')
+
+    //     return view('topics.encounterTopics', ['topics' => $topics]);
+
+    // }
 
     public function listTopic(Request $request,$uid) {
 

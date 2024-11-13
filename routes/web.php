@@ -69,10 +69,16 @@ Route::group(['prefix' => 'topics'], function(){
      Route::get('/',
      [TopicController::class, 'listAllTopics']
  )->name('ListAllTopics');
+    Route::get('/my',
+ [TopicController::class, 'myTopics']
+)->name('MyTopics');
+Route::get('/search/{search}',
+ [TopicController::class, 'search']
+)->name('Search');
  Route::get( '/{uid}',
      [TopicController::class, 'listTopicById']
  )->name('ListTopicById');
- Route::delete( '/delete',
+ Route::delete( '{uid}/delete',
      [TopicController::class, 'deleteTopic']
  )->name('DeleteTopic');
  Route::put( '/edit/{uid}',
