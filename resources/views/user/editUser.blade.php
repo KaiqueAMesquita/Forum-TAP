@@ -1,111 +1,112 @@
 @extends('layouts.navs')
 
-@section('header', 'Editar Usuário ')
+@section('header', 'Editar Usuário')
 
 @section('content')
 <!DOCTYPE html>
-    <html>
-        <head>
-            <style>
-                .card {
-                    box-shadow: 0px  0px  0px 1px rgba(98, 98, 98, 0.445);
-                    border-radius: 10px;
-                    padding: 10px;
-                    width: 300px;
-                    height: 350px;
-                    display: flex;
-                    justify-content: center;
-                }
+<html>
+    <head>
+        <style>
+            .card-container {
+                display: flex;
+                justify-content: center;
+                margin-top: 20px;
+            }
 
-                .form-group {
-                    margin-bottom: 20px;
-                }
+            .card {
+                box-shadow: 0px 0px 5px rgba(98, 98, 98, 0.445);
+                border-radius: 10px;
+                padding: 20px;
+                width: 100%;
+                max-width: 400px;
+                background-color: #f9f9f9;
+            }
 
-                input[type="text"],
-                input[type="password"],
-                input[type="email"]
-                 {
-                    padding: 10px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                    width: 80%;
-                }
+            .form-group {
+                margin-bottom: 20px;
+            }
 
-                .invalid-feedback {
-                    color: #red;
-                }
-                .submit{
-                    width: 90%;
-                    height: 30px;
-                    background-color: #445ce4;
-                    border: none;
-                    border-radius: 5px;
-                    color: white;
-                }
-                .submit:hover{
-                    cursor: pointer;
-                    background-color: #2f45c0;
-                }
-                .nameUser{
-                    font-family: Arial, Helvetica, sans-serif;
+            .btn-submit {
+                width: 100%;
+                padding: 10px;
+                background-color: #445ce4;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                font-size: 16px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
 
-                }
-            </style>
-        </head>
+            .btn-submit:hover {
+                cursor: pointer;
+                background-color: #2f45c0;
+            }
 
-        @section('content')
-            <div class="container">
-                <h2 class="nameUser">{{$user->name}}</h2>
-                <div class="card">
+            .form-title {
+                text-align: center;
+                font-family: Arial, Helvetica, sans-serif;
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card-container">
+            <div class="card">
+                <h2 class="form-title">Edição</h2>
+                <form method="POST" action="{{ route('UpdateUser', $user->id) }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
 
-                        <form method="POST" action="{{ route('UpdateUser', $user->id) }}">
-                            @csrf
-                            @method('put')
+                    <div class="form-group">
+                        <label for="name" class="form-label">Nome</label>
+                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autocomplete="name" autofocus>
+                        @error('name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
 
-                            <div class="form-group">
-                                <label for="name">Nome</label>
-                                <input id="name" type="text" class="@error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autocomplete="name" autofocus>
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">
+                        @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
 
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Senha</label>
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
+                        @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
 
-                            <div class="form-group">
-                                <label for="password">Senha</label>
-                                <input id="password" type="password" class="@error('password') is-invalid @enderror" name="password" autocomplete="new-password">
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                    <div class="form-group">
+                        <label for="password-confirm" class="form-label">Confirmar Senha</label>
+                        <input id="password-confirm" class="form-control" type="password" name="password_confirmation" autocomplete="new-password">
+                    </div>
 
-                            <div class="form-group">
-                                <label for="password-confirm">Confirmar Senha</label>
-                                <input id="password-confirm" type="password" name="password_confirmation" autocomplete="new-password">
-                            </div>
+                    <div class="form-group">
+                        <label for="photo" class="form-label">Foto</label>
+                        <input id="photo" type="file" class="form-control @error('photo') is-invalid @enderror" name="photo" autocomplete="photo">
+                        @error('photo')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
 
-                                <button class="submit" type="submit" class="btn update">
-                                    Atualizar
-                                </button>
-
-                        </form>
-
-                </div>
+                    <button type="submit" class="btn-submit">Atualizar</button>
+                </form>
             </div>
-        @endsection
-
-
-
+        </div>
+    </body>
+</html>
+@endsection

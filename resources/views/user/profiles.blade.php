@@ -1,98 +1,66 @@
 @extends('layouts.navs')
 
-@section('header', 'Perfil')
+@section('header', 'Pefil')
 
 @section('content')
-<head>
-    <style>
-        *{
-            left: 0;
-            right: 0;
-        }
+<!DOCTYPE html>
+    <html>
+        <head>
+            <style>
+                .img-user{
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    -webkit-box-shadow: -1px -2px 19px 0px rgba(0,0,0,0.75);
+                    -moz-box-shadow: -1px -2px 19px 0px rgba(0,0,0,0.75);
+                    box-shadow: -1px -2px 19px 0px rgba(0,0,0,0.75);
+                    margin: 10px
+                }
 
-        .container {
-            font-family: Arial, Helvetica, sans-serif;
-            width: 450px;
-            height: 250px;
-            box-shadow: 1px 1px 1px 2px rgba(100, 100, 100, 0.468);
-            border-radius: 5px;
-            padding: 20px;
-            margin: auto;
-        }
+                .btn{
+                    margin: 5px;
+                }
+                .container{
+                    margin-top: 30px;
+                }
+                .profile{
+                    padding: 10px;
+                    border-radius: 5px;
+                    -webkit-box-shadow: -1px 0px 4px 3px rgba(158,158,158,1);
+-moz-box-shadow: -1px 0px 4px 3px rgba(158,158,158,1);
+box-shadow: -1px 0px 4px 3px rgba(158,158,158,1);
+                    height: 500px;
+                }
+            </style>
+        </head>
 
-        .left-side, .right-side {
-            display: inline-block;
-            vertical-align: top;
-            width: 45%;
-            padding: 10px;
-        }
+        @section('content')
+        <div class="container">
+            <div class="row">
+              <div class="col-4">
 
-        .img-user {
-            width: 160px;
-            height: 200px;
-            background-color: #999;
-            margin: auto;
-        }
+              </div>
+              <div class="col-4 profile">
+                <img class="img-user" src="/storage/{{$user->photo}}">
+                <p> Nome: {{$user->name}}</p>
 
-        .info h4 {
-            margin: 5px 0;
-        }
-
-        .btn {
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            color: white;
-            display: inline-block;
-            margin: 5px 0;
-        }
-
-        .trash {
-            background-color: red;
-        }
-
-        .edit {
-            background-color: #61cff7;
-        }
-
-        .btn:hover {
-            cursor: pointer;
-        }
-
-        .fa-pen-to-square, .fa-trash {
-            color: white;
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <div class="container">
-        <div class="left-side">
-            <div class="img-user"></div>
-        </div>
-        <div class="right-side">
-            <div class="info">
-                <h4>Nome:</h4>
-                <p>{{$user->name}}</p>
-
-                <h4>Email:</h4>
-                <p>{{$user->email}}</p>
-
-                <p>Editar:</p>
-                <a class="btn edit" href="{{ route('EditUser', $user->id) }}">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-
-                <p>Excluir:</p>
-                <form action="{{ route('DeleteUser', $user->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn trash" type="submit">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </form>
+                <p>Email: {{$user->email}}</p>
+                <div class="info">
+                    <a class="btn btn-info" href="{{ route('EditUser', $user->id) }}">
+                        Editar: <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    <form action="{{ route('DeleteUser', $user->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger" type="submit">
+                           Excluir: <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
-    </div>
+            <div class="col-4">
 
+            </div>
+          </div>
 
 @endsection

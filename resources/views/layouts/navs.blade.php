@@ -16,7 +16,7 @@
 
     .offcanvas {
         max-width: 12%;
-        
+
     }
       .offcanvas-header{
         padding: 13px;
@@ -30,6 +30,7 @@
       text-align: center;
       justify-content: center;
   }
+
 
     @media (max-width: 900px) {
         .icon{
@@ -46,9 +47,9 @@
         width: 20%;
       }
       .offcanvas-body{
-        
+
         width: 100%;
-        overflow: hidden; 
+        overflow: hidden;
         justify-content: flex-start;
       }
     .content {
@@ -61,7 +62,7 @@
     </style>
   </head>
   <body>
-    
+
     <nav class="navbar navbar-dark bg-dark border-bottom border-primary border-3">
         <div class="container-fluid">
           <a class="navbar-brand">

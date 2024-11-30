@@ -30,15 +30,27 @@ class UserController extends Controller
     }
 
     public function updateUser(Request $request, $uid) {
-        // procurar o usuário no banco
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'string|min:8|confirmed',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $imagePath = $request->file('photo')->store('images','public');
+        
+
         $user = User::where('id', $uid)->first();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->photo = $imagePath;
         if ($request->password != '') {
             $user->password = Hash::make($request->password);
         }
         $user->save();
-        return redirect()->route('ListAllUsers', [$user->id])
+
+        return redirect()->route('ListUserById', [$user->id])
                 ->with('message', 'Atualizado com sucesso!');
     }
 

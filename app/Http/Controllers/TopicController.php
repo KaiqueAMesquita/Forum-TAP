@@ -70,7 +70,7 @@ class TopicController extends Controller
             // $topic->posts()->save($post);
 
             return redirect()
-                    ->route('ListAllTopics')
+                    ->route('MyTopics')
                     ->with('success', 'Topico criada com sucesso.');
 
         }
