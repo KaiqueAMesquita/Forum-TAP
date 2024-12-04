@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::get('{uid}/edit',
 [CommentController::class, 'editComment']
 )->name('EditComment');
-    Route::delete('{uid}/update',
+    Route::put('{uid}/update',
 [CommentController::class, 'updateComment']
 )->name('UpdateComment');
 
@@ -106,9 +106,12 @@ Route::get('/search',
  Route::delete( '{uid}/delete',
      [TopicController::class, 'deleteTopic']
  )->name('DeleteTopic');
- Route::put( '/edit/{uid}',
+ Route::get( '/edit/{uid}',
      [TopicController::class, 'editTopic']
  )->name('EditTopic');
+ Route::put( '/update/{uid}',
+ [TopicController::class, 'updateTopic']
+)->name('UpdateTopic');
 
  });
 

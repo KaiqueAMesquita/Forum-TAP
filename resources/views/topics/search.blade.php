@@ -48,7 +48,7 @@
         @foreach($topics as $topic)
         <div class="card">
             <div class="card-header">
-                {{ Str::limit($topic->category->title, 20) }}
+                {{ Str::limit($topic->category->title, 30) }}
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{ Str::limit($topic->title, 12) }}</h5>

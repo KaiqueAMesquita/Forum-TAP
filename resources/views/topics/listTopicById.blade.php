@@ -82,21 +82,23 @@
          @foreach ($comments as $comment)
         <li href="#" class="list-group-item list-group-item-action" aria-current="true">
           <div class="d-flex w-100 justify-content-between">
-            @if ($comment->postable && $comment->postable->image) <!-- Verificando se postable não é nulo -->
-
+            @if ($comment->postable && $comment->postable->image)
                 <img class="mb-1" style="max-width:100%; max-height: 200px;" src="/storage/{{ $comment->postable->image }}" alt="">
-
             @endif
             <small>{{$comment->created_at->diffForHumans() }}</small>
           </div>
           <p class="mb-1">{{$comment->content}}</p>
-          <small><a href="" class="btn btn-danger">deletar</a> <a class="btn btn-primary" href="">editar</a></small>
+          <small> <form action="{{ route('DeleteComment', $comment->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit" style="margin-left: 2px" class="btn btn-secondary"><i class="fa-solid fa-trash"></i></button>
+        </form><a class="btn btn-dark" href=""><i class="fa-solid fa-pen-to-square"></i></a></small>
         </li>
          @endforeach
          <li>
             <form method="POST" action="{{ route('CreateComment') }}" enctype="multipart/form-data">
                 @csrf
-
                 <input type="hidden" name="commentable_id" value="{{ $topic->id }}">
                 <input type="hidden" name="commentable_type" value="App\Models\Topic">
                 <div class="form-group">

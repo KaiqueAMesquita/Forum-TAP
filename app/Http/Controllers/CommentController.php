@@ -33,9 +33,9 @@ class CommentController extends Controller
             'content' => $request->content,
             'commentable_id' => $request->commentable_id,
             'commentable_type' => $request->commentable_type,
-         
+
         ]);
-        
+
 
         $comment->post()->create([
             'user_id' => Auth::id(),
@@ -57,8 +57,14 @@ class CommentController extends Controller
     // TO DO: implement listCommentById logic
     }
 
-    public function deleteComment(Request $request, $uid){
-    // TO DO: implement deleteComment logic
+    public function deleteComment(Request $request, $uid) {
+        $comment = Comment::where('id', $uid)->first();
+        $tid = $comment->commentable_id;
+
+        $comment->delete();
+
+        return redirect()->route('ListTopicById', $tid)
+                ->with('message', 'Atualizado com sucesso!');
     }
 
     public function editComment(Request $request, $uid){

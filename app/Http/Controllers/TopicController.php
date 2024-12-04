@@ -113,15 +113,47 @@ class TopicController extends Controller
         return view('topics.listTopicById', ['topic' => $topic,'comments' => $comments]);
     }
 
-    public function editTopic(Request $request, $uid) {
+    public function editTopic(Request $request,$uid) {
+        $topic = Topic::where('id', $uid)->first();
+        $categories = Category::all();
+
+      return view('topics.editTopic', ['topic' => $topic, 'categories' => $categories]);
+}
+
+    public function updateTopic(Request $request, $uid) {
+
+        $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category' => 'required'
+        ]);
+
+       
+
         $topic = Topic::where('id', $uid)->first();
         $topic->title = $request->title;
+        $topic->description = $request->description;
+
+        $imagePath = $topic->post->image;
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
 
 
         $topic->save();
-        return redirect()->route('ListAllTopics', [$topic->id])
+
+        $topic->post()->update([
+            'image' => $imagePath,
+           ]);
+
+        return redirect()->route('ListTopicById', [$topic->id])
                 ->with('message', 'Atualizado com sucesso!');
     }
+
+
+
 
 
 
