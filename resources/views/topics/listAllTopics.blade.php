@@ -1,6 +1,6 @@
 @extends('layouts.navs')
 
-@section('header', 'Tópicos')
+@section('header', 'Bem vindo ao Tech!')
 
 @section('content')
 <style>
@@ -47,12 +47,12 @@
         @foreach($topics as $topic)
         <div class="card">
             <div class="card-header">
-                {{ Str::limit($topic->category->title, 8) }}
+                {{ Str::limit($topic->category->title, 20) }}
             </div>
             <div class="card-body">
-                <h5 class="card-title">{{ Str::limit($topic->title, 8) }}</h5>
-                <p class="card-text">{{ Str::limit($topic->description, 20) }}</p>
-                <a href="#" class="btn btn-primary">Ver mais</a>
+                <h5 class="card-title">{{ Str::limit($topic->title, 12) }}</h5>
+                <p class="card-text">{{ Str::limit($topic->description, 30) }}</p>
+                <a href="{{ route('ListTopicById',$topic->id) }}" class="btn btn-primary">Ver mais</a>
             </div>
             <div class="card-footer">
                 {{ $topic->created_at->diffForHumans() }}

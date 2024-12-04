@@ -52,8 +52,8 @@
             <div class="card-body">
                 <h5 class="card-title">{{ Str::limit($topic->title, 12) }}</h5>
                 <p class="card-text">{{ Str::limit($topic->description, 30) }}</p>
-                <a href="#" class="btn btn-primary">Ver mais</a>
-            </div>
+                <a href="{{ route('ListTopicById', $topic->id) }}" class="btn btn-primary">Ver mais</a>
+                        </div>
             <div class="card-footer">
                 {{ $topic->created_at->diffForHumans() }}
             </div>

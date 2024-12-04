@@ -1,6 +1,6 @@
 @extends('layouts.navs')
 
-@section('header', 'Bem vindo ao Tech!')
+@section('header', 'Tópicos')
 
 @section('content')
 <style>
@@ -44,6 +44,7 @@
 
 <div class="container">
     <div class="card-container">
+        @if($topics->count() > 0)
         @foreach($topics as $topic)
         <div class="card">
             <div class="card-header">
@@ -52,13 +53,17 @@
             <div class="card-body">
                 <h5 class="card-title">{{ Str::limit($topic->title, 12) }}</h5>
                 <p class="card-text">{{ Str::limit($topic->description, 30) }}</p>
-                <a href="{{ route('ListTopicById',$topic->id) }}" class="btn btn-primary">Ver mais</a>
+                <a href="#" class="btn btn-primary">Ver mais</a>
             </div>
             <div class="card-footer">
                 {{ $topic->created_at->diffForHumans() }}
             </div>
         </div>
         @endforeach
+        @else
+        <p>Nenhum tópico encontrado.</p>
+
+        @endif
     </div>
 </div>
 @endsection

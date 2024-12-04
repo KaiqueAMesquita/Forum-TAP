@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
-
+use App\Models\Post;
+use App\Models\Topic;
 class UserController extends Controller
 {
     public function listAllUsers(Request $request) {
@@ -19,7 +20,15 @@ class UserController extends Controller
     public function listUser(Request $request, $uid) {
         print($uid);
         $user = User::where('id', $uid)->first();
-        return view('user.profiles', ['user' => $user]);
+
+        $topics = Post::where('user_id', $uid)
+        ->whereHasMorph('postable', Topic::class)
+        ->with('postable.category')
+        ->get()
+        ->pluck('postable')
+        ->unique('id');
+
+        return view('user.profiles', ['user' => $user, 'topics' => $topics]);
 
     }
     public function moderateUser(Request $request, $uid) {
@@ -34,12 +43,12 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'password' => 'string|min:8|confirmed',
+            'password' => 'confirmed',
             'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $imagePath = $request->file('photo')->store('images','public');
-        
+
 
         $user = User::where('id', $uid)->first();
         $user->name = $request->name;

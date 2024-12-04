@@ -6,10 +6,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TopicController;
-Route::get('/', function(){
-    return view('index');
-})->name('Home');
-
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CommentController;
+Route::get('/',
+    [HomeController::class, 'index']
+)->name('Home');
 
 
 //User
@@ -61,6 +62,30 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
+    Route::group(['prefix' => 'comments'], function(){
+        Route::post('/create',
+    [CommentController::class, 'createComment']
+)->name('CreateComment');
+    Route::get('/',
+[CommentController::class, 'listAllComments']
+)->name('ListAllComments');
+    Route::get('/',
+[CommentController::class, 'listCommentById']
+)->name('ListCommentById');
+    Route::delete('{uid}/delete',
+[CommentController::class, 'deleteComment']
+)->name('DeleteComment');
+    Route::get('{uid}/edit',
+[CommentController::class, 'editComment']
+)->name('EditComment');
+    Route::delete('{uid}/update',
+[CommentController::class, 'updateComment']
+)->name('UpdateComment');
+
+});
+});
+
+Route::middleware('auth')->group(function () {
    //Topic
 Route::group(['prefix' => 'topics'], function(){
     Route::match(['get', 'post'],'/create',
@@ -72,7 +97,7 @@ Route::group(['prefix' => 'topics'], function(){
     Route::get('/my',
  [TopicController::class, 'myTopics']
 )->name('MyTopics');
-Route::get('/search/{search}',
+Route::get('/search',
  [TopicController::class, 'search']
 )->name('Search');
  Route::get( '/{uid}',

@@ -36,9 +36,14 @@ class Topic extends Post
     {
         return $this->belongsToMany(Topic::class);
     }
-    public function comment(): HasMany
+
+    // public function comment(): HasMany
+    // {
+    //     return $this->belongsToMany(Comment::class);
+    // }
+    public function comments()
     {
-        return $this->belongsToMany(Comment::class);
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
 }

@@ -37,9 +37,7 @@
             display: inline-block;
             margin-left: -20px
         }
-        .menu-text{
-        display: none;
-    }
+
         .navbar-brand{
             display: none;
         }
@@ -57,6 +55,8 @@
       }
 
 
+
+
     }
 
     </style>
@@ -67,10 +67,10 @@
         <div class="container-fluid">
           <a class="navbar-brand">
             Tech</a>
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+          <form class="d-flex" action="{{ route('Search') }}" method="GET">
+            <input class="form-control me-2" type="search" name="search" placeholder="Buscar" aria-label="Buscar">
             <button class="btn btn-outline-primary" type="submit">Buscar</button>
-          </form>
+        </form>
         </div>
 
       </nav>
@@ -82,18 +82,31 @@
         <div class="offcanvas-body">
             <nav class="navbar navbar-dark bg-dark flex-column  p-2">
                 <nav class="nav nav-pills flex-column text-start">
-                  <a class="nav-link"  href="{{route('Home')}}"> <i class= "icon fas fa-home fa-lg"></i><span class="menu-text">Home</span></a>
+                  <a class="nav-link"  href="{{route('Home')}}">Home</a>
+
+
                   <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="icon fa-solid fa-clipboard fa-lg"></i><span class="menu-text">Tópicos</span></a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tópicos</a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item"  href="{{route('CreateTopic')}}">Criar Tópico</a></li>
                       <li><a class="dropdown-item"  href="{{route('ListAllTopics')}}">Ver todos</a></li>
                       <li><a class="dropdown-item" href="{{route('MyTopics')}}">Meus Tópicos</a></li>
                     </ul>
-                    <a class="nav-link"  href="{{route('ListAllCategories')}}"> <i class=" icon fa-solid fa-list fa-lg"></i><span class="menu-text">Categorias</span></a>
-                </nav>
-              </nav>
+                    </li>
+                    <a class="nav-link"  href="{{route('ListAllCategories')}}">Categorias</a>
+                @if(Auth::check())
+                <a class="nav-link" href="{{route('ListUserById', Auth::user()->id)}}">Perfil</a>
 
+              <a class="nav-link" href="{{ route('Logout') }}">Sair</a>
+              @endif
+
+              @if(Auth::guest())
+              <a class="nav-link" href="{{ route('login') }}">
+                  Entrar
+              </a>
+              @endif
+            </nav>
+            </nav>
         </div>
       </div>
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel">

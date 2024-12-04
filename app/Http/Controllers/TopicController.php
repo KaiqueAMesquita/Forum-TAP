@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Topic;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Comment;
 
 class TopicController extends Controller
 {
@@ -43,21 +44,28 @@ class TopicController extends Controller
             $request->validate([
                 'title' => 'required|string',
                 'description' => 'required|string',
-                'image' => 'required|string',
-                'status' => 'required|int',
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
                 'category' => 'required'
             ]);
+            $imagePath = '';
+
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $imagePath = $request->file('image')->store('images', 'public');
+            }
+
 
             $topic = Topic::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'status' => $request->status,
-                'category_id' => $request->category
+                'status' => 1,
+                'category_id' => $request->category,
             ]);
 
             $topic->post()->create([
                 'user_id' => Auth::id(),
-                'image' => $request->image,
+                'image' => $imagePath,
+
+
                 // 'image' => $request->file('image')->store('images', 'public')
             ]);
 
@@ -77,20 +85,14 @@ class TopicController extends Controller
 
     }
 
-    // public function search(Request $request, $search) {
 
+    public function search(Request $request){
+        $search = $request->query('search');
+        $topics = Topic::where('title', 'like', '%' . $search . '%')->get();
 
-    //     $topics = Topic::where('title', '%'$search'%')
-
-    //     return view('topics.encounterTopics', ['topics' => $topics]);
-
-    // }
-
-    public function listTopic(Request $request,$uid) {
-
-        return view('topics.ListTopicById');
-
+        return view('topics.search', ['topics' => $topics]);
     }
+
 
     public function deleteTopic(Request $request, $uid) {
         Topic::where('id', $uid)->delete();
@@ -98,13 +100,19 @@ class TopicController extends Controller
                 ->with('message', 'Atualizado com sucesso!');
     }
 
-    public function listTopicById(Request $request, $uid) {
+    public function listTopicById(Request $request, $uid)
+    {
+        $topic = Topic::with('post')->where('id', $uid)->first();
+
+        $comments = Comment::with('replies')
+        ->where('commentable_id', $uid)
+        ->where('commentable_type', Topic::class)
+        ->get();
 
 
-        $topic = Topic::where('id', $uid)->first();
-        return view('topics.listTopicById', ['topic' => $topic]);
-
+        return view('topics.listTopicById', ['topic' => $topic,'comments' => $comments]);
     }
+
     public function editTopic(Request $request, $uid) {
         $topic = Topic::where('id', $uid)->first();
         $topic->title = $request->title;

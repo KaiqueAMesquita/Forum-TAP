@@ -1,91 +1,133 @@
 @extends('layouts.navs')
 
-@section('header', 'Editar Topicos ')
+@section('header', '')
 
 @section('content')
-<!DOCTYPE html>
-    <html>
-        <head>
-            <style>
-                .card {
-                    box-shadow: 0px  0px  0px 1px rgba(98, 98, 98, 0.445);
-                    border-radius: 10px;
-                    padding: 10px;
-                    width: 300px;
-                    height: 350px;
-                    display: flex;
-                    justify-content: center;
-                }
+<style>
+    .card-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+    }
+    .card {
+        width: 80%;
+        max-width: 600px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    .card-header {
+        background-color: #f8f9fa;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px;
+        text-align: center;
+    }
+    .card-body {
+        padding: 25px;
+        text-align: center;
+    }
+    .card-footer {
+        background-color: #f8f9fa;
+        font-size: 14px;
+        color: #6c757d;
+        padding: 10px;
+        text-align: center;
+    }
+    .btn {
+        margin-top: 10px;
+    }
+    .img-topic{
+        max-width: 100%;
+        max-height: 400px;
+    }
+</style>
 
-                .form-group {
-                    margin-bottom: 20px;
-                }
+<div class="container">
+   @if(Auth::check())
+    <div class="btn-group" style="margin: 8px;" role="group" aria-label="Basic example">
+    <a href="{{ route('EditTopic', $topic->id) }}" style="margin-right: 2px" class="btn btn-sm btn-primary">Editar</a>
+    <form action="{{ route('DeleteTopic', $topic->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" style="margin-left: 2px" class="btn btn-sm btn-danger">Excluir</button>
+    </form>
+    </div>
+    @endif
+    <div class="card-container">
+        <div class="card">
+            <div class="card-header">
+                {{ Str::limit($topic->category->title, 20) }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ Str::limit($topic->title) }}</h5>
+                @if($topic->post->image != '')
+                <img class="img-topic" src="/storage/{{ $topic->post->image }}">
+                @endif
+                <p class="card-text">{{ Str::limit($topic->description) }}</p>
 
-                input[type="text"],
-                input[type="password"],
-                input[type="email"]
-                 {
-                    padding: 10px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                    width: 80%;
-                }
+            </div>
+            <div class="card-footer">
+                {{ $topic->created_at->diffForHumans() }}
+            </div>
+        </div>
 
-                .invalid-feedback {
-                    color: #red;
-                }
-                .submit{
-                    width: 90%;
-                    height: 30px;
-                    background-color: #445ce4;
-                    border: none;
-                    border-radius: 5px;
-                    color: white;
-                }
-                .submit:hover{
-                    cursor: pointer;
-                    background-color: #2f45c0;
-                }
-                .nameUser{
-                    font-family: Arial, Helvetica, sans-serif;
+    </div>
+</br>
+    <h3>Comentários</h3>
+    <ul class="list-group" style="list-style: none">
+         @foreach ($comments as $comment)
+        <li href="#" class="list-group-item list-group-item-action" aria-current="true">
+          <div class="d-flex w-100 justify-content-between">
+            @if ($comment->postable && $comment->postable->image) <!-- Verificando se postable não é nulo -->
 
-                }
-            </style>
-        </head>
+                <img class="mb-1" style="max-width:100%; max-height: 200px;" src="/storage/{{ $comment->postable->image }}" alt="">
 
-        @section('content')
-            <div class="container">
-                <h2 class="tieTopic">{{$topic->title}}</h2>
-                <div class="card">
-                        <form method="POST" action="{{ route('EditTopic', $topic->id) }}">
-                            @csrf
-                            @method('put')
+            @endif
+            <small>{{$comment->created_at->diffForHumans() }}</small>
+          </div>
+          <p class="mb-1">{{$comment->content}}</p>
+          <small><a href="" class="btn btn-danger">deletar</a> <a class="btn btn-primary" href="">editar</a></small>
+        </li>
+         @endforeach
+         <li>
+            <form method="POST" action="{{ route('CreateComment') }}" enctype="multipart/form-data">
+                @csrf
 
-                            <div class="form-group">
-                                <label for="name">Descrição</label>
-                                <input id="title" type="text" class="@error('title') is-invalid @enderror" name="title" value="{{ old('title', $topic->title) }}" required autocomplete="title" autofocus>
-                                @error('tie')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                                <input id="description" type="text" class="@error('description') is-invalid @enderror" name="description" value="{{ old('description', $topic->description) }}" required autocomplete="description" autofocus>
-                                @error('description')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                                <button class="submit" type="submit" class="btn update">
-                                    Atualizar
-                                </button>
+                <input type="hidden" name="commentable_id" value="{{ $topic->id }}">
+                <input type="hidden" name="commentable_type" value="App\Models\Topic">
+                <div class="form-group">
+                    <label for="content" class="form-label">Escreva um Comentario</label>
+                    <input id="content" type="text" class="form-control @error('content') is-invalid @enderror" name="content" value="{{ old('content') }}" required autocomplete="content" autofocus>
+                    @error('content')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                    <br>
+                    <div class="form-group">
+                        <label for="image" class="form-label">
+                            <i class="fa-solid fa-paperclip" style="cursor: pointer; font-size: 24px;"></i>
+                        </label>
+                        <input id="image" type="file" class="form-control d-none @error('image') is-invalid @enderror" name="image" value="{{ old('image') }}" autocomplete="image">
+                        @error('image')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
 
-                        </form>
+
+
 
                 </div>
-            </div>
-        @endsection
+                <button type="submit" class="btn btn-primary">Criar</button>
 
+            </form>
 
-
-
+         </li>
+    </ul>
+@endsection
