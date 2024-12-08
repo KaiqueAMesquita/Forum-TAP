@@ -1,6 +1,6 @@
 @extends('layouts.navs')
 
-@section('header', 'Lista de Usuários')
+@section('header', 'Lista de Tags')
 
 @section('content')
 <style>
