@@ -1,41 +1,33 @@
-## Projeto de Fórum Técnico com Laravel
+# Projeto Forum-TAP
 
-Este projeto foi desenvolvido como parte do curso de Técnicas Avançadas de Programação, utilizando o padrão Model View Controller (MVC) com Laravel. O objetivo é criar um fórum técnico com as seguintes funcionalidades:
-*Incompleto
-Telas:
+## Introdução
 
-## 1. Tela de Login:
+Este projeto é um forum feito para atividade da matéria de Técnicas Avanças de Programação . Ele foi desenvolvido utilizando Laravel e tem como principal funcionalidade ser um fórum onde usuários podem comentar sobre assuntos, tendo foco na tecnologia.
 
-- Permite que usuários registrados entrem na plataforma.
-- Autenticação segura.
+## Funcionalidades
 
-## 2. Registro:
+*   Usuários podem se cadastrar e vizualizar tópicos do site.
+*   Criação, edição e exclusão de tópicos por usuários cadastrados.
+*   Criação, edição e exclusão de comentários por usuários cadastrados.
+*   CRUD de tags completo.
+*   CRUD de categorias completo.
+*   Navegação
 
-- Permite que novos usuários se registrem na plataforma.
-- Validação de dados para garantir informações corretas e seguras.
+## Requisitos
 
-## 3. Ver Perfil de Usuário:
+*   PHP 7.3 ou superior: necessário para executar o projeto.
+*   Laravel 8 ou superior: necessário para executar o projeto.
+*   Banco de Dados (Padrão do sistema MySQL): necessário para armazenar os dados do sistema.
+*   Composer: necessário para gerenciar as dependências do projeto.
 
-- Exibe informações detalhadas sobre o perfil do usuário logado.
-- Mostra dados como nome, foto de perfil, informações pessoais, etc.
+## Instalação
+Para instalar o projeto, siga os passos abaixo:
 
-## 4. Ver Todos os Usuários:
-
-        - Lista todos os usuários registrados na plataforma.
-
-## 5. Banir e Suspender Conta (Moderador):
-
-- Rota: **http://127.0.0.1:8000/users/{id}/moderator**
-- Funcionalidade disponível apenas para moderadores ou administradores(não funcional).
-- Permite banir temporariamente ou suspender permanentemente contas de usuário(não funcional).
-
-## 6. Editar Usuário / Deletar (Botão):
-
-- Permite que usuários editem suas próprias informações de perfil.
-- Opção de deletar contas de usuário.
-
-## Erros:
-
-- UI fraca e com erros;
-- Não há opções de tags, topicos e posts;
-- Erros no menu em algumas blades;
+1. Clone o repositório utilizando o comando `git clone https://github.com/KaiqueAMesquita/Forum-TAP.git`
+2. Instale as dependências utilizando o comando `composer install`
+4. Gere uma chave para o projeto utilizando o comando `php artisan key:generate`
+5. Configure o banco de dados no arquivo `.env`
+6. Execute as migrations utilizando o comando `php artisan migrate`
+7. Inicie o servidor de desenvolvimento utilizando o comando `php artisan serve`
+8. Acesse o projeto em `http://localhost:8000`
+Para instalar o projeto, siga os passos abaixo:

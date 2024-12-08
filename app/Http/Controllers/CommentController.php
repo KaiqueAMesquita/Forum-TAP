@@ -9,10 +9,10 @@ use App\Models\Comment;
 
 class CommentController extends Controller
 {
-    public function listAllComments(Request $request){
-        $comments = Comment::all();
+    public function listAllComments(){
+    $comments = Comment::with('post', 'commentable')->get();
 
-        return view('listAllComments', ['comments' => $comments]);
+        return view('comments.listAllComments', ['comments' => $comments]);
     }
 
     public function createComment(Request $request){
@@ -36,14 +36,12 @@ class CommentController extends Controller
 
         ]);
 
-
         $comment->post()->create([
             'user_id' => Auth::id(),
             'image' => $imagePath,
 
 
         ]);
-
 
 
         return redirect()
@@ -53,8 +51,11 @@ class CommentController extends Controller
 
 
 
-    public function listCommentById(Request $request, $uid){
-    // TO DO: implement listCommentById logic
+public function listCommentById(Request $request, $uid){
+    $comment = Comment::with('post')->where('id', $uid)->first();
+
+
+    return view('comments.listCommentById', ['comment' => $comment]);
     }
 
     public function deleteComment(Request $request, $uid) {
@@ -67,12 +68,38 @@ class CommentController extends Controller
                 ->with('message', 'Atualizado com sucesso!');
     }
 
-    public function editComment(Request $request, $uid){
-    // TO DO: implement editComment logic
+    public function editComment(Request $request,$uid) {
+        $comment = Comment::where('id', $uid)->first();
+
+      return view('comments.editComment', ['comment' => $comment]);
+}
+
+    public function updateComment(Request $request, $uid) {
+
+        $request->validate([
+            'content' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+
+        ]);
+
+        $comment = Comment::where('id', $uid)->first();
+        $comment->content = $request->content;
+
+        $imagePath = $comment->post->image;
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+
+        $comment->save();
+
+        $comment->post()->update([
+            'image' => $imagePath
+        ]);
+
+        return redirect()->route('ListTopicById', [$comment->commentable_id ])
+                ->with('message', 'Atualizado com sucesso!');
     }
 
-    public function updateComment(Request $request, $uid){
-    // TO DO: implement updateComment logic
-    }
 
 }

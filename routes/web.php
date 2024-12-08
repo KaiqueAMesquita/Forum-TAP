@@ -61,15 +61,15 @@ Route::middleware('auth')->group(function () {
 });
 
 
+
 Route::middleware('auth')->group(function () {
-    Route::group(['prefix' => 'comments'], function(){
+    Route::group(['prefix' => 'comments'], function () {
+    Route::get('/', [CommentController::class, 'listAllComments']
+        )->name('ListAllComments');
         Route::post('/create',
     [CommentController::class, 'createComment']
 )->name('CreateComment');
-    Route::get('/',
-[CommentController::class, 'listAllComments']
-)->name('ListAllComments');
-    Route::get('/',
+    Route::get('/{uid}',
 [CommentController::class, 'listCommentById']
 )->name('ListCommentById');
     Route::delete('{uid}/delete',

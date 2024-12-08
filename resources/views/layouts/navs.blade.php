@@ -93,7 +93,27 @@
                       <li><a class="dropdown-item" href="{{route('MyTopics')}}">Meus Tópicos</a></li>
                     </ul>
                     </li>
-                    <a class="nav-link"  href="{{route('ListAllCategories')}}">Categorias</a>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tags</a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item"  href="{{route('CreateTag')}}">Criar Tags</a></li>
+                          <li><a class="dropdown-item"  href="{{route('ListAllTags')}}">Ver tags</a></li>
+                        </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorias</a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li><a class="dropdown-item"  href="{{route('CreateCategory')}}">Criar Categoria</a></li>
+                              <li><a class="dropdown-item"  href="{{route('ListAllCategories')}}">Ver Categorias</a></li>
+                            </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Comentários</a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                  <li><a class="dropdown-item"  href="{{route('ListAllComments')}}">Ver Comentários</a></li>
+                                </ul>
+                                </li>
                 @if(Auth::check())
                 <a class="nav-link" href="{{route('ListUserById', Auth::user()->id)}}">Perfil</a>
 

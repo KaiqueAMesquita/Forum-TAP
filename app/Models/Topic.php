@@ -4,6 +4,7 @@ namespace App\Models;
 ;use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 class Topic extends Post
 {
@@ -34,7 +35,7 @@ class Topic extends Post
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Topic::class);
+        return $this->belongsToMany(Tag::class, 'topic_tags');
     }
 
     // public function comment(): HasMany

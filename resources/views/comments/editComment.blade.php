@@ -1,6 +1,6 @@
 @extends('layouts.navs')
 
-@section('header', 'Editar Categoria')
+@section('header', 'Editar Comentário')
 
 @section('content')
 <!DOCTYPE html>
@@ -54,13 +54,13 @@
         <div class="card-container">
             <div class="card">
                 <h2 class="form-title">Edição</h2>
-                <form method="POST" action="{{ route('UpdateCategory', $category->id) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('UpdateTopic', $comment->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                 <div class="form-group">
-                    <label for="title" class="form-label">Título</label>
-                    <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ $category->title }}" required autocomplete="title" autofocus>
-                    @error('title')
+                    <label for="content" class="form-label">Escreva</label>
+                    <input id="content" type="text" class="form-control @error('content') is-invalid @enderror" name="content" value="{{ $comment->content }}" required autocomplete="content" autofocus>
+                    @error('content')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -68,15 +68,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="description" class="form-label">Descrição</label>
-                    <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" value="{{$category->description}}" required autocomplete="description">
-                    @error('description')
+                    <label for="image" class="form-label">Imagem</label>
+                    <input id="image" type="file" class="form-control @error('image') is-invalid @enderror" name="image" value="{{ old('image') }}" autocomplete="image">
+                    @error('image')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-
 
                     <button type="submit" class="btn-submit">Atualizar</button>
                 </form>

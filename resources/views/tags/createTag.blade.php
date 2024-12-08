@@ -1,64 +1,83 @@
+@extends('layouts.navs')
+
+@section('header', 'Criar Tag')
+
+@section('content')
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>register</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #585858;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .card {
-    background-color: #272727;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-    padding: 40px;
-    width: 300px;
-  }
-  h2 {
-    color: white;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  input[type="text"], input[type="email"], input[type="password"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ffffff;
-    border-radius: 4px;
-  }
-  input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #4d57ea;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  input[type="submit"]:hover {
-    background-color: #0f0c54;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Tópico</title>
+    <style>
+        .card-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .card {
+            box-shadow: 0px 0px 5px rgba(98, 98, 98, 0.445);
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            background-color: #f9f9f9;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 10px;
+            background-color: #445ce4;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .btn-submit:hover {
+            cursor: pointer;
+            background-color: #2f45c0;
+        }
+
+        .form-title {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-bottom: 20px;
+        }
+
+        .invalid-feedback {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Criar Tag</h2>
-    <form action="{{ route('CreateTag') }}" method="post">
-      @csrf
-      <input type="text" id="tie" name="tie" placeholder="Laço"
-                    value="{{ old('tie') }}" required>
-      @error('tie') <span>{{ $message }}</span> @enderror
+    <div class="card-container">
+        <div class="card">
+            <h2 class="form-title">Criar</h2>
+            <form method="POST" action="{{ route('CreateTag') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    <label for="tie" class="form-label">Título</label>
+                    <input id="tie" type="text" class="form-control @error('tie') is-invalid @enderror" name="tie" value="{{ old('tie') }}" required autocomplete="tie" autofocus>
+                    @error('tie')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
 
-      <input type="submit" value="Registrar">
-    </form>
-  </div>
+
+                <button type="submit" class="btn-submit">Criar</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
+@endsection

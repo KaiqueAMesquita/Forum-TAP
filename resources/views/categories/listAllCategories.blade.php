@@ -92,6 +92,6 @@
         </tr>
         @endforeach
     </table>
-    <a href="{{route('CreateCategory')}}">Criar</a>
+    <a class="btn btn-primary" href="{{route('CreateCategory')}}">Criar</a>
 
 @endsection

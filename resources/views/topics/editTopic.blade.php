@@ -93,6 +93,22 @@
                     @enderror
                 </div>
                 <div class="form-group">
+                    <label for="tags" class="form-label">Tags</label>
+                    <select class="form-select @error('tags') is-invalid @enderror" id="tags" name="tags[]" multiple required>
+                        @foreach ($tags as $tag)
+                            <option value="{{ $tag->id }}"
+                                {{ in_array($tag->id, $topic->tags->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                {{ $tag->tie }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('tags')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="form-group">
                     <label for="image" class="form-label">Imagem</label>
                     <input id="image" type="file" class="form-control @error('image') is-invalid @enderror" name="image" value="{{ old('image') }}" autocomplete="image">
                     @error('image')

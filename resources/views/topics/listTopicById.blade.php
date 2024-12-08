@@ -71,9 +71,17 @@
 
             </div>
             <div class="card-footer">
+                @foreach ($topic->tags as $tag)
+                    #{{ $tag->tie }}
+                @endforeach
+                <br>
+
                 {{ $topic->created_at->diffForHumans() }}
+
             </div>
         </div>
+
+</div>
 
     </div>
 </br>
@@ -82,8 +90,11 @@
          @foreach ($comments as $comment)
         <li href="#" class="list-group-item list-group-item-action" aria-current="true">
           <div class="d-flex w-100 justify-content-between">
-            @if ($comment->postable && $comment->postable->image)
-                <img class="mb-1" style="max-width:100%; max-height: 200px;" src="/storage/{{ $comment->postable->image }}" alt="">
+
+            @if ($comment->post && $comment->post->image)
+
+                <img  style="max-width:100%; max-height: 100px;" src="/storage/{{ $comment->post->image}}" alt="">
+
             @endif
             <small>{{$comment->created_at->diffForHumans() }}</small>
           </div>
@@ -92,9 +103,16 @@
             @csrf
             @method('DELETE')
 
-            <button type="submit" style="margin-left: 2px" class="btn btn-secondary"><i class="fa-solid fa-trash"></i></button>
-        </form><a class="btn btn-dark" href=""><i class="fa-solid fa-pen-to-square"></i></a></small>
+            <button type="submit" style="margin-left: 2px;" class="btn btn-secondary"><i class="fa-solid fa-trash"></i></button>
+        </form><a class="btn btn-dark" href="{{route('EditComment', $comment->commentable_id)}}"><i class="fa-solid fa-pen-to-square"></i></a>
+
+
+    </small>
         </li>
+
+
+
+
          @endforeach
          <li>
             <form method="POST" action="{{ route('CreateComment') }}" enctype="multipart/form-data">

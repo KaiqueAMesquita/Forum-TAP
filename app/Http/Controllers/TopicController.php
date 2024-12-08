@@ -9,6 +9,7 @@ use App\Models\Topic;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Tag;
 
 class TopicController extends Controller
 {
@@ -37,7 +38,8 @@ class TopicController extends Controller
         $userId = Auth::id();
         if ($request->method() === 'GET') {
             $categories = Category::all();
-            return view('topics.createTopic', ['categories' => $categories]);
+            $tags = Tag::all();
+            return view('topics.createTopic', ['categories' => $categories, 'tags' => $tags]);
 
         } else {
 
@@ -45,7 +47,8 @@ class TopicController extends Controller
                 'title' => 'required|string',
                 'description' => 'required|string',
                 'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-                'category' => 'required'
+                'category' => 'required',
+                'tags' => 'array'
             ]);
             $imagePath = '';
 
@@ -65,17 +68,11 @@ class TopicController extends Controller
                 'user_id' => Auth::id(),
                 'image' => $imagePath,
 
-
-                // 'image' => $request->file('image')->store('images', 'public')
             ]);
 
-            // $post = Post::create([
-            //     'image' => $request->input('image'),
 
-            //     // 'created_at' => now(),
-            //     // 'updated_at' => now(),
-            // ]);
-            // $topic->posts()->save($post);
+            $topic->tags()->sync($request->tags);
+
 
             return redirect()
                     ->route('MyTopics')
@@ -95,29 +92,33 @@ class TopicController extends Controller
 
 
     public function deleteTopic(Request $request, $uid) {
-        Topic::where('id', $uid)->delete();
-        return redirect()->route('ListAllTopics')
+        $topic = Topic::where('id', $uid)->first();
+        $topic->tags()->detach();
+        $topic->post()->delete();
+        $topic->delete();
+        return redirect()->route('Home')
                 ->with('message', 'Atualizado com sucesso!');
     }
-
     public function listTopicById(Request $request, $uid)
     {
         $topic = Topic::with('post')->where('id', $uid)->first();
 
-        $comments = Comment::with('replies')
+        $comments = Comment::with(['replies.post'])
         ->where('commentable_id', $uid)
         ->where('commentable_type', Topic::class)
+        ->orderBy('created_at', 'asc')
         ->get();
-
 
         return view('topics.listTopicById', ['topic' => $topic,'comments' => $comments]);
     }
 
-    public function editTopic(Request $request,$uid) {
-        $topic = Topic::where('id', $uid)->first();
-        $categories = Category::all();
+    public function editTopic($uid)
+{
+    $topic = Topic::with('tags', 'category')->findOrFail($uid);
+    $categories = Category::all();
+    $tags = Tag::all();
 
-      return view('topics.editTopic', ['topic' => $topic, 'categories' => $categories]);
+    return view('topics.editTopic', ['topic' => $topic,'categories' => $categories,'tags' => $tags,]);
 }
 
     public function updateTopic(Request $request, $uid) {
@@ -126,10 +127,9 @@ class TopicController extends Controller
             'title' => 'required|string',
             'description' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'category' => 'required'
+            'category' => 'required',
+            'tags' => 'array'
         ]);
-
-       
 
         $topic = Topic::where('id', $uid)->first();
         $topic->title = $request->title;
@@ -147,6 +147,9 @@ class TopicController extends Controller
         $topic->post()->update([
             'image' => $imagePath,
            ]);
+
+        $topic->tags()->sync($request->tags);
+
 
         return redirect()->route('ListTopicById', [$topic->id])
                 ->with('message', 'Atualizado com sucesso!');

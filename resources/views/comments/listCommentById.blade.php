@@ -1,15 +1,13 @@
 @extends('layouts.navs')
 
-@section('header', 'Lista de Comentários')
+@section('header', 'Comentário')
 
 @section('content')
 
 <div class="container">
     <ul class="list-group" style="list-style: none">
-        @foreach ($comments as $comment)
             <li href="#" class="list-group-item list-group-item-action" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
-
                     @if ($comment->post && $comment->post->image)
                         <img  style="max-width:100%; max-height: 100px;" src="/storage/{{ $comment->post->image}}" alt="">
                     @endif
@@ -27,11 +25,8 @@
 
                     <a class="btn btn-dark" href="{{route('EditComment', $comment->id)}}"><i class="fa-solid fa-pen-to-square"></i></a>
                     <a class="btn btn-outline-secondary" href="{{route('ListTopicById', $comment->commentable_id)}}"><i class="fa-solid fa-list"></i></a>
-                    <a class="btn btn-primary" href="{{route('ListCommentById', $comment->id)}}"><i class="fa-solid fa-street-view"></i></a>
-
                 </small>
             </li>
-        @endforeach
     </ul>
 </div>
 

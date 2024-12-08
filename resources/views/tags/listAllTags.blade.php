@@ -90,6 +90,6 @@
         </tr>
         @endforeach
     </table>
-    <a href="{{route('CreateTag')}}">Criar</a>
+    <a class="btn btn-primary" href="{{route('CreateTag')}}">Criar</a>
 
 @endsection
